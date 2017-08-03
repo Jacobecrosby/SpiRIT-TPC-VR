@@ -1,0 +1,43 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SensorColor : MonoBehaviour
+{
+    Renderer rend;
+
+    public static Color32 Shade1 = new Color32(28, 74, 190, 0);
+    public static Color32 Shade2 = new Color32(16, 90, 218, 0);
+    public static Color32 Shade3 = new Color32(14, 142, 208, 0);
+    public static Color32 Shade4 = new Color32(13, 167, 194, 0);
+    public static Color32 Shade5 = new Color32(39, 180, 169, 0);
+    public static Color32 Shade6 = new Color32(115, 189, 128, 0);
+    public static Color32 Shade7 = new Color32(178, 188, 101, 0);
+    public static Color32 Shade8 = new Color32(211, 187, 86, 0);
+    public static Color32 Shade9 = new Color32(241, 196, 61, 0);
+    public static Color32 Shade10 = new Color32(251, 225, 31, 0);
+    public static Color32 Shade11 = new Color32(255, 255, 0, 0);
+
+    Color[] Colors = { Shade1, Shade2, Shade3, Shade4, Shade5, Shade6, Shade7, Shade8, Shade9, Shade10, Shade11 };
+
+
+
+    void Start()
+    {
+
+        rend = GetComponent<Renderer>();
+        rend.enabled = true;
+
+
+    }
+
+    public List<Collider> touchingColliders = new List<Collider>();
+    void OnTriggerEnter(Collider col)
+    {
+        touchingColliders.Add(col);
+        int index = Mathf.Min(Colors.Length - 1, touchingColliders.Count);
+        rend.material.color = Colors[index];
+    }
+
+
+}

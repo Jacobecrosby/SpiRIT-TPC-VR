@@ -1,0 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class WallDestroy : MonoBehaviour
+{
+
+    void OnTriggerEnter(Collider other)
+    {
+
+        if (other.tag == "Particle")
+        {
+            Destroy(other.gameObject);
+        }
+
+
+    }
+}
