@@ -1,0 +1,54 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MagneticField : MonoBehaviour
+{
+    public Rigidbody rb;
+    public float Constant;
+    public float Charge;
+    public float B;
+    public float Px;
+    public float py;
+    public float Pz;
+
+    float Radius_scale;
+    public float scale;
+
+    float Radius;
+    float P;
+    float Omega;
+    float Velocity;
+    float time;
+    float px_dt;
+    float pz_dt;
+
+
+    private void Start()
+    {
+
+        rb = GetComponent<Rigidbody>();
+        time = Time.deltaTime;
+
+        P = Mathf.Sqrt(Mathf.Pow(Px, 2) + Mathf.Pow(Pz, 2));
+        Radius = (Constant * P) / (B * Mathf.Abs(Charge));
+        Velocity = P / rb.mass;
+        Radius_scale = Radius / scale;
+        Omega = Velocity / Radius_scale;
+        
+
+    }
+
+    private void FixedUpdate()
+   
+    {
+        px_dt = Mathf.Cos(Omega * time) * Px - Mathf.Abs(Charge)/Charge * Mathf.Sin(Omega * time) * Pz;
+        pz_dt = Mathf.Abs(Charge)/Charge * Mathf.Sin(Omega * time) * Px  + Mathf.Cos(Omega * time) * Pz;
+
+        Px = px_dt;
+        Pz = pz_dt;
+
+        transform.Translate((px_dt*time)/rb.mass, (py*time)/rb.mass ,  (pz_dt*time)/rb.mass);
+    }
+}
+

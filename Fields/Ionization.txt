@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Ionization : MonoBehaviour
+{
+    public Rigidbody ElectronPrefab;
+
+    private float InstantiationTimer1;
+    public float Time1;
+    public float Time2;
+    
+
+    public void ElectronParent(Transform Newparent)
+    {
+        ElectronPrefab.transform.SetParent(Newparent);
+    }
+    void OnTriggerStay(Collider other)
+    {
+        InstantiationTimer1 -= Time.deltaTime;
+        if(InstantiationTimer1 <=0)
+        
+        
+
+        if (other.gameObject.tag == "Field")
+           
+        {
+            Instantiate(ElectronPrefab, transform.localPosition, transform.rotation);
+            InstantiationTimer1 = Random.Range(Time1, Time2);
+           
+        }
+    }
+
+
+
+}
