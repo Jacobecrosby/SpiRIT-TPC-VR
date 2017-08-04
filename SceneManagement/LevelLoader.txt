@@ -1,0 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Levelloader : MonoBehaviour
+{
+    public void Loadlevel(string sceneToLoad)
+    {
+        StartCoroutine(GameController.control.LoadLevel(sceneToLoad));
+    }
+
+	
+}
