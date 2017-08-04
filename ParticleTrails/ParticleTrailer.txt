@@ -1,0 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Trailer : MonoBehaviour {
+
+	public TrailRenderer trailer;
+    public GameObject Parent;
+
+	void OnDestroy()
+	{
+        trailer.transform.parent = Parent.transform;
+		trailer.autodestruct = true;
+		trailer = null;
+	}
+}
