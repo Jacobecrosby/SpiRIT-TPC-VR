@@ -1,0 +1,17 @@
+public class SetActive : MonoBehaviour
+{
+    public void StartCo()
+    {
+        StartCoroutine(Activate("Level03"));
+    }
+
+    public IEnumerator Activate(string sceneName)
+    {
+        yield return new WaitForSeconds(Time.deltaTime);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Level03"));
+
+        Scene scene = SceneManager.GetActiveScene();
+        Debug.Log("Active Scene is" + scene.name);
+    }
+
+}

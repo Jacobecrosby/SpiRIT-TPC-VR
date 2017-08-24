@@ -1,0 +1,58 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using FileHelpers;
+
+
+
+
+
+
+public class DataOutput : MonoBehaviour
+{
+    public Rigidbody Proton;
+
+
+    [IgnoreFirst(1)]
+    [DelimitedRecord(",")]
+    public class Data
+    {
+        public int ParticleNum;
+        public float xCoord;
+        public float yCoord;
+        public float zCoord;
+        public float Px;
+        public float Py;
+        public float Pz;
+
+    }
+
+
+    public void DataOut(string fileName)
+
+    {
+
+
+        fileName = "C:\\Users\\Public\\Documents\\Unity Projects\\VRTest\\Assets\\_Data\\r2786e737.csv";
+        var engine = new FileHelperEngine<Data>();
+        var lines = engine.ReadFile(fileName);
+
+
+
+        foreach (var line in lines)
+        {
+
+            Rigidbody clone;
+            clone = Instantiate(Proton, new Vector3(line.xCoord / 32, line.yCoord / 32, line.zCoord / 32), Quaternion.Euler(0,0,0));
+
+            clone.velocity = transform.TransformDirection(new Vector3(line.Px/64, line.Py/64, line.Pz/64));
+
+        }
+
+    }
+
+    
+
+}
