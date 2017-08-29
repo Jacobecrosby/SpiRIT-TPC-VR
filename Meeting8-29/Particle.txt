@@ -1,0 +1,14 @@
+
+	//public TrailRenderer trailer;
+    public GameObject Parent;
+    public ParticleSystem particle;
+    
+
+	void OnDestroy()
+	{
+        //trailer.transform.parent = Parent.transform;
+        particle.Pause();
+        particle.transform.parent = Parent.transform;
+
+       
+	}
