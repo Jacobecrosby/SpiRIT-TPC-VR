@@ -1,0 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MagneticForce : MonoBehaviour
+{
+    
+    Rigidbody rb;
+    Vector3 v3MagneticField = new Vector3(0, 0.5f, 0);
+    Vector3 v3Force = new Vector3(0, 0, 0);
+     
+
+ private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+      
+    }
+
+
+    private void Update()
+    {
+        Vector3 frameVelocity = this.GetComponent<FrameVelocity>().CalcFrameVelocity();
+        if (Mathf.Abs(rb.rotation.eulerAngles.magnitude) > 0) v3Force = -Vector3.Cross(frameVelocity, v3MagneticField);
+        if (rb.rotation.eulerAngles.magnitude == 0) v3Force = Vector3.Cross(frameVelocity, v3MagneticField);
+        this.rb.AddForce(v3Force);
+    }
+}

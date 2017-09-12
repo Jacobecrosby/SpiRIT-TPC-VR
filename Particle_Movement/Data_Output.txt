@@ -1,0 +1,89 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using FileHelpers;
+
+public class Data_737_2 : MonoBehaviour {
+
+    public float c = 3 * 10 ^ 8;
+    public float Ts = 1 * 10 ^ 9;
+    public float p = 1000f;
+
+    private void Awake()
+    {
+        StartCoroutine(Activate("Level03"));
+
+    }
+
+
+    public IEnumerator Activate(string sceneName)
+    {
+        yield return new WaitForEndOfFrame();
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Level05"));
+
+        Scene scene = SceneManager.GetActiveScene();
+        Debug.Log("Active Scene is" + scene.name);
+    }
+
+
+    public Rigidbody Proton;
+
+
+    [IgnoreFirst(1)]
+    [DelimitedRecord(",")]
+    public class Data
+    {
+        public int Charge;
+        public float xCoord;
+        public float yCoord;
+        public float zCoord;
+        public float VxB;
+        public float VyB;
+        public float VzB;
+       
+
+    }
+
+    public void Start()
+    {
+        StartCoroutine(TPCFileOutput("TPC File"));
+
+    }
+    public IEnumerator TPCFileOutput(string fileName)
+
+    {
+
+        yield return new WaitForEndOfFrame();
+        Scene scene = SceneManager.GetActiveScene();
+
+        if (scene == SceneManager.GetSceneByName("Level05"))
+        {
+            fileName = "C:\\Users\\Public\\Documents\\Unity Projects\\VRTest\\Assets\\_Data\\r2786e737_3.csv";
+            var engine = new FileHelperEngine<Data>();
+            var lines = engine.ReadFile(fileName);
+
+            Debug.Log("Clones! Clones Everywhere!");
+
+            foreach (var line in lines)
+            {
+
+                if (line.Charge > 0)
+                 {
+                GameObject clone = Instantiate(Proton.gameObject, new Vector3(line.xCoord / 32, line.yCoord / 32, line.zCoord / 32), Quaternion.Euler(0, 0, 0)) as GameObject;
+
+                clone.GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3((line.VxB*c*p)/(108*Ts) , (line.VyB*c*p)/(108*Ts), (line.VzB*c*p)/(108*Ts)));
+                }
+                if (line.Charge < 0)
+                {
+                    GameObject clone = Instantiate(Proton.gameObject, new Vector3(line.xCoord / 32, line.yCoord / 32, line.zCoord / 32), Quaternion.Euler(180, 0, 0)) as GameObject;
+
+                    clone.GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3((line.VxB * c * p) / (108 * Ts) , (line.VyB * c * p) / (108 * Ts), (line.VzB * c * p) / (108 * Ts)));
+                }
+            }
+        }
+    }
+
+
+
+}
